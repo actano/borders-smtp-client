@@ -19,3 +19,4 @@ deploy:
   on:
     tags: true
     repo: actano/borders-smtp-client
+    node: '8'
