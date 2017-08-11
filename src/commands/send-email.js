@@ -1,6 +1,8 @@
+import commandWithStackFrame from 'borders/command-with-stackframe'
+
 export const SEND_EMAIL = 'send-email'
 
-export default (address, subject, content) =>
+export default commandWithStackFrame((address, subject, content) =>
   ({
     type: SEND_EMAIL,
     payload: {
@@ -8,4 +10,5 @@ export default (address, subject, content) =>
       subject,
       content,
     },
-  })
+  }),
+)
