@@ -28,12 +28,20 @@ export default (createBackend) => {
   })
 
   it('should handle "sendEmail" command', execute(function* test() {
-    yield sendEmail('recipient@mail.com', 'Some Subject', 'Some Content')
+    yield sendEmail(
+      'recipient@mail.com',
+      'Some Subject',
+      {
+        text: 'Some Text Content',
+        html: '<html><body>Some HTML Content</body></html>',
+      },
+    )
 
     expect(backend[SEND_EMAIL]).to.have.been.calledWith({
       address: 'recipient@mail.com',
       subject: 'Some Subject',
-      content: 'Some Content',
+      text: 'Some Text Content',
+      html: '<html><body>Some HTML Content</body></html>',
     })
   }))
 }
