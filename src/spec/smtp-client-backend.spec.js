@@ -27,21 +27,48 @@ export default (createBackend) => {
     backend[SEND_EMAIL].restore()
   })
 
-  it('should handle "sendEmail" command', execute(function* test() {
-    yield sendEmail(
-      'recipient@mail.com',
-      'Some Subject',
-      {
+  context('without mail options', () => {
+    it('should handle "sendEmail" command', execute(function* test() {
+      yield sendEmail(
+        'recipient@mail.com',
+        'Some Subject',
+        {
+          text: 'Some Text Content',
+          html: '<html><body>Some HTML Content</body></html>',
+        },
+      )
+
+      expect(backend[SEND_EMAIL]).to.have.been.calledWith({
+        address: 'recipient@mail.com',
+        from: undefined,
+        subject: 'Some Subject',
         text: 'Some Text Content',
         html: '<html><body>Some HTML Content</body></html>',
-      },
-    )
+      })
+    }))
+  })
 
-    expect(backend[SEND_EMAIL]).to.have.been.calledWith({
-      address: 'recipient@mail.com',
-      subject: 'Some Subject',
-      text: 'Some Text Content',
-      html: '<html><body>Some HTML Content</body></html>',
-    })
-  }))
+  context('with mail options', () => {
+    it('should handle "sendEmail" command', execute(function* test() {
+      yield sendEmail(
+        'recipient@mail.com',
+        'Some Subject',
+        {
+          text: 'Some Text Content',
+          html: '<html><body>Some HTML Content</body></html>',
+        },
+        {
+          from: '"John Doe" <john@doe.com>',
+        },
+      )
+
+      expect(backend[SEND_EMAIL]).to.have.been.calledWith({
+        address: 'recipient@mail.com',
+        from: '"John Doe" <john@doe.com>',
+        subject: 'Some Subject',
+        text: 'Some Text Content',
+        html: '<html><body>Some HTML Content</body></html>',
+      })
+    }))
+  })
 }
