@@ -1,4 +1,4 @@
-import { SEND_EMAIL } from '../../../borders-smtp-client/src/commands/send-email'
+import { SEND_EMAIL } from '../commands/send-email'
 
 export default () => {
   const backend = {
